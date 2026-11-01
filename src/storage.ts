@@ -83,8 +83,9 @@ export class PostgresStorage implements StorageProvider {
   constructor(connectionString: string) {
     const isLocal =
       connectionString.includes('localhost') || connectionString.includes('127.0.0.1');
+    const sanitizedUrl = connectionString.replace(/[?&]sslmode=[^&]+/g, '');
     this.pool = new Pool({
-      connectionString,
+      connectionString: sanitizedUrl,
       ssl: isLocal ? false : { rejectUnauthorized: false },
     });
   }
