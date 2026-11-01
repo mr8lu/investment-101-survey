@@ -1,0 +1,37 @@
+spec:
+  name: investment-101-survey
+  region: nyc
+
+  services:
+    - name: web
+      git:
+        repo_clone_url: https://github.com/mr8lu/investment-101-survey.git
+        branch: main
+      build_command: npm install && npm run build
+      run_command: npm start
+      http_port: 8080
+      instance_count: 1
+      instance_size_slug: apps-s-1vcpu-0.5gb
+      health_check:
+        http_path: /health
+      envs:
+        - key: ADMIN_KEY
+          scope: RUN_TIME
+          type: SECRET
+          value: weekend101
+        - key: DATABASE_URL
+          scope: RUN_TIME
+          value: ${db.DATABASE_URL}
+
+  databases:
+    - name: db
+      engine: PG
+      production: false
+
+  ingress:
+    rules:
+      - match:
+          path:
+            prefix: /
+        component:
+          name: web

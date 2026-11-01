@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Speaker Dashboard &amp; Data Export | Investment 101</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <a href="#dashboard-main" class="skip-link">Skip to dashboard</a>
+
+  <header class="topbar">
+    <div class="topbar-inner" style="max-width: 1060px;">
+      <a href="/" class="brand">
+        <span>Investment 101</span>
+        <span class="badge">Speaker Dashboard</span>
+      </a>
+      <a href="/" class="nav-link">&larr; Back to Questionnaire</a>
+    </div>
+  </header>
+
+  <main id="dashboard-main" class="container-wide">
+    <!-- Auth / Key Bar -->
+    <section class="hero-card" id="auth-card">
+      <div class="toolbar" style="margin-bottom: 0;">
+        <div>
+          <p class="hero-eyebrow">Speaker Access &amp; Data Export</p>
+          <h1 class="hero-title" style="font-size: 1.5rem; margin-bottom: 4px;">Audience Pulse &amp; Submissions</h1>
+          <p class="hero-subtitle" id="storage-badge-text">Enter your speaker key to view individual submissions and download CSV/JSON data.</p>
+        </div>
+        <form id="key-form" class="toolbar-actions">
+          <label for="admin-key-input" style="font-weight: 600; font-size: 0.9rem;">Admin Key:</label>
+          <input
+            type="password"
+            id="admin-key-input"
+            class="text-input"
+            style="width: 180px; padding: 8px 12px;"
+            placeholder="weekend101"
+            value="weekend101"
+          />
+          <button type="submit" class="btn btn-secondary">Load Data</button>
+        </form>
+      </div>
+    </section>
+
+    <div id="dashboard-error" class="alert alert-error hidden" role="alert"></div>
+
+    <!-- Action Toolbar -->
+    <div id="export-toolbar" class="toolbar hidden">
+      <div style="font-weight: 700; color: var(--text-secondary);" id="last-updated-label">
+        Live Data Loaded
+      </div>
+      <div class="toolbar-actions">
+        <button type="button" id="refresh-btn" class="btn btn-secondary">Refresh Now</button>
+        <a id="download-csv-link" href="#" class="btn btn-secondary">Download CSV (Excel/Sheets)</a>
+        <a id="download-json-link" href="#" class="btn btn-secondary">Download Raw JSON</a>
+      </div>
+    </div>
+
+    <!-- Top-Level KPI Cards -->
+    <section id="kpi-section" class="stats-grid hidden">
+      <div class="stat-card">
+        <div class="stat-label">Total Responses</div>
+        <div class="stat-value" id="stat-total">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Avg Confidence (1-5)</div>
+        <div class="stat-value" id="stat-confidence">0.0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Open Questions Submitted</div>
+        <div class="stat-value" id="stat-questions">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Storage Engine</div>
+        <div class="stat-value" id="stat-storage" style="font-size: 1.35rem; margin-top: 14px;">-</div>
+      </div>
+    </section>
+
+    <!-- Visual Charts Grid -->
+    <section id="charts-section" class="charts-grid hidden">
+      <div class="chart-card">
+        <h2 class="chart-title">1. Where Non-401(k) Cash Sits Today</h2>
+        <div id="chart-cash" class="bar-list"></div>
+      </div>
+      <div class="chart-card">
+        <h2 class="chart-title">2. Requested Talk Topics (Vote Count)</h2>
+        <div id="chart-topics" class="bar-list"></div>
+      </div>
+      <div class="chart-card">
+        <h2 class="chart-title">3. Top 3-5 Year Competing Priorities</h2>
+        <div id="chart-goals" class="bar-list"></div>
+      </div>
+      <div class="chart-card">
+        <h2 class="chart-title">4. Biggest Investing Blocker / Friction</h2>
+        <div id="chart-blockers" class="bar-list"></div>
+      </div>
+      <div class="chart-card">
+        <h2 class="chart-title">5. Accounts Currently Used</h2>
+        <div id="chart-accounts" class="bar-list"></div>
+      </div>
+      <div class="chart-card">
+        <h2 class="chart-title">6. Confidence Level Distribution (1 to 5)</h2>
+        <div id="chart-confidence" class="bar-list"></div>
+      </div>
+    </section>
+
+    <!-- Open Mic Questions & Individual Submissions Table -->
+    <section id="submissions-section" class="hidden">
+      <h2 style="font-size: 1.25rem; margin-bottom: 12px;">Individual Responses &amp; Open Mic Questions</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Submitted</th>
+              <th>Name / Alias</th>
+              <th>Confidence</th>
+              <th>Cash Location</th>
+              <th>Top 3-5 Yr Goal</th>
+              <th>Biggest Blocker</th>
+              <th>Accounts &amp; Topics</th>
+              <th>Open Mic Question</th>
+            </tr>
+          </thead>
+          <tbody id="submissions-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const keyForm = document.getElementById('key-form');
+    const keyInput = document.getElementById('admin-key-input');
+    const errorEl = document.getElementById('dashboard-error');
+    const exportToolbar = document.getElementById('export-toolbar');
+    const kpiSection = document.getElementById('kpi-section');
+    const chartsSection = document.getElementById('charts-section');
+    const submissionsSection = document.getElementById('submissions-section');
+    const refreshBtn = document.getElementById('refresh-btn');
+    const csvLink = document.getElementById('download-csv-link');
+    const jsonLink = document.getElementById('download-json-link');
+    const lastUpdatedLabel = document.getElementById('last-updated-label');
+
+    // Pre-fill from URL query param ?key=... if provided
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('key')) {
+      keyInput.value = urlParams.get('key');
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str == null ? '' : String(str);
+      return div.innerHTML;
+    }
+
+    function renderBarList(containerId, countsObj, totalResponses, preserveKeyOrder = false) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      const entries = Object.entries(countsObj || {});
+      if (!preserveKeyOrder) {
+        entries.sort((a, b) => b[1] - a[1]);
+      }
+
+      if (entries.length === 0) {
+        container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.9rem;">No data yet.</div>';
+        return;
+      }
+
+      for (const [label, count] of entries) {
+        const pct = totalResponses > 0 ? Math.round((count / totalResponses) * 100) : 0;
+        const row = document.createElement('div');
+        row.className = 'bar-row';
+        row.innerHTML = `
+          <div class="bar-meta">
+            <span>${escapeHtml(label)}</span>
+            <span>${count} (${pct}%)</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: ${pct}%"></div>
+          </div>
+        `;
+        container.appendChild(row);
+      }
+    }
+
+    async function loadDashboard() {
+      const key = keyInput.value.trim();
+      errorEl.classList.add('hidden');
+
+      try {
+        const res = await fetch(`/api/admin/submissions?key=${encodeURIComponent(key)}`);
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || 'Failed to load submissions.');
+        }
+
+        const { aggregates, submissions, storageMode } = data;
+        const openQCount = submissions.filter((s) => s.openQuestion && s.openQuestion.trim().length > 0).length;
+
+        document.getElementById('stat-total').textContent = aggregates.totalResponses;
+        document.getElementById('stat-confidence').textContent = `${aggregates.averageConfidence} / 5`;
+        document.getElementById('stat-questions').textContent = openQCount;
+        document.getElementById('stat-storage').textContent = storageMode.toUpperCase();
+
+        csvLink.href = `/api/admin/export.csv?key=${encodeURIComponent(key)}`;
+        jsonLink.href = `/api/admin/export.json?key=${encodeURIComponent(key)}`;
+        lastUpdatedLabel.textContent = `Last refreshed: ${new Date().toLocaleTimeString()}`;
+
+        renderBarList('chart-cash', aggregates.cashLocationCounts, aggregates.totalResponses);
+        renderBarList('chart-topics', aggregates.topicsRequestedCounts, aggregates.totalResponses);
+        renderBarList('chart-goals', aggregates.topGoalCounts, aggregates.totalResponses);
+        renderBarList('chart-blockers', aggregates.biggestBlockerCounts, aggregates.totalResponses);
+        renderBarList('chart-accounts', aggregates.accountsUsedCounts, aggregates.totalResponses);
+        renderBarList('chart-confidence', aggregates.confidenceDistribution, aggregates.totalResponses, true);
+
+        const tbody = document.getElementById('submissions-tbody');
+        tbody.innerHTML = '';
+
+        if (submissions.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="8" style="text-align: center; color: var(--text-muted); padding: 24px;">
+                No responses submitted yet. Share the questionnaire link with your group!
+              </td>
+            </tr>
+          `;
+        } else {
+          for (const sub of submissions) {
+            const tr = document.createElement('tr');
+            const dateStr = new Date(sub.createdAt).toLocaleString();
+            const accountsStr = (sub.accountsUsed || []).join(', ') || '-';
+            const topicsStr = (sub.topicsRequested || []).join(', ') || '-';
+            tr.innerHTML = `
+              <td style="white-space: nowrap;">${escapeHtml(dateStr)}</td>
+              <td><strong>${escapeHtml(sub.nickname || 'Anonymous')}</strong></td>
+              <td><span class="badge">${escapeHtml(sub.confidenceLevel)} / 5</span></td>
+              <td>${escapeHtml(sub.cashLocation)}</td>
+              <td>${escapeHtml(sub.topGoal)}</td>
+              <td>${escapeHtml(sub.biggestBlocker)}</td>
+              <td>
+                <div style="margin-bottom: 4px;"><strong>Accounts:</strong> ${escapeHtml(accountsStr)}</div>
+                <div><strong>Topics:</strong> ${escapeHtml(topicsStr)}</div>
+              </td>
+              <td style="min-width: 220px; font-weight: 600; color: var(--accent-primary);">
+                ${escapeHtml(sub.openQuestion || '-')}
+              </td>
+            `;
+            tbody.appendChild(tr);
+          }
+        }
+
+        exportToolbar.classList.remove('hidden');
+        kpiSection.classList.remove('hidden');
+        chartsSection.classList.remove('hidden');
+        submissionsSection.classList.remove('hidden');
+      } catch (err) {
+        errorEl.textContent = err.message || 'Unable to load speaker dashboard.';
+        errorEl.classList.remove('hidden');
+      }
+    }
+
+    keyForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      loadDashboard();
+    });
+
+    refreshBtn.addEventListener('click', () => {
+      loadDashboard();
+    });
+
+    // Auto-load on initial open
+    loadDashboard();
+  </script>
+</body>
+</html>

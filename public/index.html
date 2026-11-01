@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Investment 101 Pre-Talk Pulse | Early 30s Edition</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to questionnaire</a>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="/" class="brand">
+        <span>Investment 101</span>
+        <span class="badge">90-Sec Pulse</span>
+      </a>
+      <a href="/results" class="nav-link">Speaker Dashboard &amp; Export</a>
+    </div>
+  </header>
+
+  <main id="main-content" class="container">
+    <section class="hero-card">
+      <p class="hero-eyebrow">Anonymous Pre-Session Survey</p>
+      <h1 class="hero-title">Where Are We Starting From?</h1>
+      <p class="hero-subtitle">
+        We are tailoring our upcoming <strong>Investment 101 (Early 30s Edition)</strong> session to what actually matters to this group. No emails or dollar amounts required - takes under 90 seconds.
+      </p>
+    </section>
+
+    <div id="error-banner" class="alert alert-error hidden" role="alert"></div>
+
+    <form id="survey-form" novalidate>
+      <!-- Q1: Cash Location -->
+      <section class="question-card">
+        <fieldset>
+          <legend class="question-legend">
+            1. Outside of your 401(k), where is most of your savings sitting right now?
+            <span class="required-tag" aria-label="required">*</span>
+          </legend>
+          <p class="question-hint">Pick the bucket that holds the largest share of your non-retirement money.</p>
+          <div class="options-grid">
+            <label class="option-label">
+              <input type="radio" name="cashLocation" value="Checking / Standard Bank Savings" required />
+              <span>Checking or standard bank savings (&lt;1% interest)</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="cashLocation" value="High-Yield Savings / Money Market / CDs" />
+              <span>High-Yield Savings Account (HYSA), Money Market, or Treasuries (~4-5%)</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="cashLocation" value="Broad Index Funds / ETFs / Target-Date" />
+              <span>Broad Index Funds, ETFs (e.g., S&amp;P 500, VTI), or Robo-Advisor</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="cashLocation" value="Individual Stocks / Employer RSUs / Crypto" />
+              <span>Mostly individual stocks, employer RSUs, or crypto</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="cashLocation" value="Focused on Debt / Living Month-to-Month" />
+              <span>Mostly going toward debt payoff or month-to-month expenses right now</span>
+            </label>
+          </div>
+        </fieldset>
+      </section>
+
+      <!-- Q2: Confidence Level -->
+      <section class="question-card">
+        <fieldset>
+          <legend class="question-legend">
+            2. How confident do you feel about your current financial &amp; investing system?
+            <span class="required-tag" aria-label="required">*</span>
+          </legend>
+          <p class="question-hint">1 = Completely winging it, 5 = Automated &amp; crystal clear.</p>
+          <div class="scale-row">
+            <label class="scale-item">
+              <input type="radio" name="confidenceLevel" value="1" required />
+              <span class="scale-number">1</span>
+              <span class="scale-caption">Winging it</span>
+            </label>
+            <label class="scale-item">
+              <input type="radio" name="confidenceLevel" value="2" />
+              <span class="scale-number">2</span>
+              <span class="scale-caption">Scattered</span>
+            </label>
+            <label class="scale-item">
+              <input type="radio" name="confidenceLevel" value="3" />
+              <span class="scale-number">3</span>
+              <span class="scale-caption">Getting by</span>
+            </label>
+            <label class="scale-item">
+              <input type="radio" name="confidenceLevel" value="4" />
+              <span class="scale-number">4</span>
+              <span class="scale-caption">Solid plan</span>
+            </label>
+            <label class="scale-item">
+              <input type="radio" name="confidenceLevel" value="5" />
+              <span class="scale-number">5</span>
+              <span class="scale-caption">On autopilot</span>
+            </label>
+          </div>
+        </fieldset>
+      </section>
+
+      <!-- Q3: Accounts Used -->
+      <section class="question-card">
+        <fieldset>
+          <legend class="question-legend">
+            3. Which accounts do you currently have open and actively use?
+          </legend>
+          <p class="question-hint">Select all that apply.</p>
+          <div class="options-grid">
+            <label class="option-label">
+              <input type="checkbox" name="accountsUsed" value="401(k) / 403(b) Employer Plan" />
+              <span>Employer 401(k) / 403(b)</span>
+            </label>
+            <label class="option-label">
+              <input type="checkbox" name="accountsUsed" value="High-Yield Savings Account (HYSA)" />
+              <span>High-Yield Savings Account (HYSA)</span>
+            </label>
+            <label class="option-label">
+              <input type="checkbox" name="accountsUsed" value="Roth IRA / Traditional IRA / Backdoor Roth" />
+              <span>Roth IRA / Traditional IRA (or Backdoor Roth)</span>
+            </label>
+            <label class="option-label">
+              <input type="checkbox" name="accountsUsed" value="Health Savings Account (HSA) - Invested" />
+              <span>Health Savings Account (HSA) invested in funds</span>
+            </label>
+            <label class="option-label">
+              <input type="checkbox" name="accountsUsed" value="Taxable Brokerage Account" />
+              <span>Individual / Joint Taxable Brokerage (Fidelity, Vanguard, Schwab, Robinhood, etc.)</span>
+            </label>
+            <label class="option-label">
+              <input type="checkbox" name="accountsUsed" value="Employer Equity (RSUs / ESPP / Options)" />
+              <span>Employer Equity (RSUs, ESPP, or Stock Options)</span>
+            </label>
+          </div>
+        </fieldset>
+      </section>
+
+      <!-- Q4: Top 3-5 Year Goal -->
+      <section class="question-card">
+        <fieldset>
+          <legend class="question-legend">
+            4. What is your #1 competing financial priority over the next 3-5 years?
+            <span class="required-tag" aria-label="required">*</span>
+          </legend>
+          <p class="question-hint">In our 30s, we rarely invest in a vacuum. What is competing for your next dollar?</p>
+          <div class="options-grid">
+            <label class="option-label">
+              <input type="radio" name="topGoal" value="Buying a Home / Condo Down Payment" required />
+              <span>Buying a home or condo (building a down payment)</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="topGoal" value="Long-Term Wealth / Work Optionality (FI)" />
+              <span>Pure long-term wealth building &amp; career optionality</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="topGoal" value="Starting / Growing a Family / Wedding" />
+              <span>Wedding, starting/growing a family, or childcare costs</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="topGoal" value="Paying Off Student Loans / Other Debt" />
+              <span>Knocking out student loans or high-interest debt</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="topGoal" value="Sabbatical / Career Pivot / Starting a Business" />
+              <span>Taking a sabbatical, career pivot, or funding a business</span>
+            </label>
+          </div>
+        </fieldset>
+      </section>
+
+      <!-- Q5: Biggest Friction / Blocker -->
+      <section class="question-card">
+        <fieldset>
+          <legend class="question-legend">
+            5. What is the biggest friction stopping you from investing more (or more consistently)?
+            <span class="required-tag" aria-label="required">*</span>
+          </legend>
+          <div class="options-grid">
+            <label class="option-label">
+              <input type="radio" name="biggestBlocker" value="Analysis Paralysis (Don't know which funds/accounts)" required />
+              <span>Analysis paralysis - unsure which accounts or funds to pick</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="biggestBlocker" value="Market Timing Fear (Scared of buying at all-time highs)" />
+              <span>Fear of buying at the top / waiting for a market pullback</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="biggestBlocker" value="Need Liquidity (Keeping cash for a big purchase)" />
+              <span>Keeping cash liquid because I might need it in 1-3 years</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="biggestBlocker" value="Tax / RSU Complexity (Afraid of messing up taxes)" />
+              <span>Complexity around taxes, RSUs, or income phase-outs</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="biggestBlocker" value="No Blocker (Already automated, just want to optimize)" />
+              <span>Already automated - just looking to optimize my allocation &amp; tax strategy</span>
+            </label>
+          </div>
+        </fieldset>
+      </section>
+
+      <!-- Q6: Topics to Deep-Dive -->
+      <section class="question-card">
+        <fieldset>
+          <legend class="question-legend">
+            6. Which topics do you want us to spend the most time on during the talk?
+          </legend>
+          <p class="question-hint">Pick up to 3 topics you care about most.</p>
+          <div class="options-grid">
+            <label class="option-label">
+              <input type="checkbox" name="topicsRequested" value="Order of Operations (Where each dollar goes first)" />
+              <span>The "Order of Operations" Waterfall (401k vs. Roth vs. HSA vs. Brokerage)</span>
+            </label>
+            <label class="option-label">
+              <input type="checkbox" name="topicsRequested" value="Simple 3-Fund / ETF Portfolio Construction" />
+              <span>Building a low-fee, 3-fund ETF portfolio (what tickers to actually buy)</span>
+            </label>
+            <label class="option-label">
+              <input type="checkbox" name="topicsRequested" value="Handling RSUs, ESPPs &amp; Company Stock" />
+              <span>What to do with RSUs, ESPPs, and concentrated employer stock</span>
+            </label>
+            <label class="option-label">
+              <input type="checkbox" name="topicsRequested" value="Rent vs. Buy Math &amp; Saving for a Down Payment" />
+              <span>Rent vs. Buy math in your 30s &amp; where to park house down-payment cash</span>
+            </label>
+            <label class="option-label">
+              <input type="checkbox" name="topicsRequested" value="Tax Optimization &amp; Backdoor Roth IRAs" />
+              <span>Tax optimization, Backdoor Roth IRAs, and avoiding common tax traps</span>
+            </label>
+            <label class="option-label">
+              <input type="checkbox" name="topicsRequested" value="Automating Your Paycheck &amp; Preventing Lifestyle Creep" />
+              <span>Setting up a 30-minute automated payday system</span>
+            </label>
+          </div>
+        </fieldset>
+      </section>
+
+      <!-- Q7: Open Question & Optional Alias -->
+      <section class="question-card">
+        <label for="openQuestion" class="question-legend">
+          7. Open Mic: What is one money or investing question you have always wanted a straight answer to?
+        </label>
+        <p class="question-hint">100% anonymous. Nothing is too basic or too specific.</p>
+        <textarea
+          id="openQuestion"
+          name="openQuestion"
+          rows="3"
+          class="textarea-input"
+          placeholder="e.g., Should I sell my vested RSUs right away? How much cash is too much cash? Is a financial advisor worth 1%?"
+        ></textarea>
+
+        <div style="margin-top: 18px;">
+          <label for="nickname" class="question-legend" style="font-size: 0.95rem;">
+            Optional nickname / first name (leave blank to stay completely anonymous)
+          </label>
+          <input
+            type="text"
+            id="nickname"
+            name="nickname"
+            class="text-input"
+            placeholder="Anonymous"
+            maxlength="60"
+          />
+        </div>
+      </section>
+
+      <button type="submit" id="submit-btn" class="btn btn-primary">
+        Submit My Anonymous Pulse
+      </button>
+    </form>
+
+    <!-- Post-Submission Live Group Comparison -->
+    <section id="thank-you-section" class="hidden" aria-live="polite">
+      <div class="alert alert-success">
+        Response recorded! Thank you for helping shape our Investment 101 session.
+      </div>
+
+      <div class="hero-card">
+        <p class="hero-eyebrow">Live Group Pulse</p>
+        <h2 class="hero-title" style="font-size: 1.45rem;">Here is how the group looks so far</h2>
+        <p class="hero-subtitle" id="pulse-summary-text">Loading live stats...</p>
+        <div id="live-pulse-bars" class="bar-list" style="margin-top: 20px;"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById('survey-form');
+    const errorBanner = document.getElementById('error-banner');
+    const submitBtn = document.getElementById('submit-btn');
+    const thankYouSection = document.getElementById('thank-you-section');
+    const pulseSummaryText = document.getElementById('pulse-summary-text');
+    const livePulseBars = document.getElementById('live-pulse-bars');
+
+    function renderMiniBars(counts, total) {
+      livePulseBars.innerHTML = '';
+      const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+      for (const [label, count] of entries) {
+        const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+        const row = document.createElement('div');
+        row.className = 'bar-row';
+        row.innerHTML = `
+          <div class="bar-meta">
+            <span>${label}</span>
+            <span>${count} (${pct}%)</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: ${pct}%"></div>
+          </div>
+        `;
+        livePulseBars.appendChild(row);
+      }
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorBanner.classList.add('hidden');
+
+      const formData = new FormData(form);
+      const cashLocation = formData.get('cashLocation');
+      const confidenceLevel = formData.get('confidenceLevel');
+      const topGoal = formData.get('topGoal');
+      const biggestBlocker = formData.get('biggestBlocker');
+
+      if (!cashLocation || !confidenceLevel || !topGoal || !biggestBlocker) {
+        errorBanner.textContent = 'Please answer questions 1, 2, 4, and 5 before submitting.';
+        errorBanner.classList.remove('hidden');
+        errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      const payload = {
+        cashLocation,
+        confidenceLevel: Number(confidenceLevel),
+        accountsUsed: formData.getAll('accountsUsed'),
+        topGoal,
+        biggestBlocker,
+        topicsRequested: formData.getAll('topicsRequested'),
+        openQuestion: formData.get('openQuestion') || '',
+        nickname: formData.get('nickname') || '',
+      };
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Saving response...';
+
+      try {
+        const res = await fetch('/api/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || 'Could not save response.');
+        }
+
+        form.classList.add('hidden');
+        thankYouSection.classList.remove('hidden');
+
+        const agg = data.aggregates;
+        pulseSummaryText.textContent = `${agg.totalResponses} total response(s) collected so far | Average group confidence: ${agg.averageConfidence} / 5.0 - Top Requested Topics:`;
+        renderMiniBars(agg.topicsRequestedCounts, agg.totalResponses);
+        thankYouSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } catch (err) {
+        errorBanner.textContent = err.message || 'Something went wrong. Please try again.';
+        errorBanner.classList.remove('hidden');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit My Anonymous Pulse';
+      }
+    });
+  </script>
+</body>
+</html>
