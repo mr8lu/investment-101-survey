@@ -19,14 +19,9 @@ spec:
           scope: RUN_TIME
           type: SECRET
           value: weekend101
-        - key: DATABASE_URL
+        - key: DATA_FILE
           scope: RUN_TIME
-          value: ${db.DATABASE_URL}
-
-  databases:
-    - name: db
-      engine: PG
-      production: false
+          value: ./data/submissions.json
 
   ingress:
     rules:
